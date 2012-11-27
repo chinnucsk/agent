@@ -64,7 +64,7 @@ disk_metrics(Dn, Ts) ->
     ?INFO("disk metrics", []),
     Disks = disksup:get_disk_data(),
     lists:map(fun({Dev, DiskTotal, Usage}) -> 
-        DiskDn = list_to_binary(["disk=", Dev, ",", Dn]),
+        DiskDn = list_to_binary([Dn, ",disk=", Dev]),
         DiskUsed = (DiskTotal * Usage) div 100,
         DiskAvail = DiskTotal - DiskUsed,
         #metric{name='host.disk',

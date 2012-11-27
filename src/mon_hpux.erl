@@ -132,7 +132,7 @@ parse(Dn, Ts, [L1,L2,L3,L4|Lines], InfoAcc, DatalogAcc) ->
     Info = lists:concat(["dev=", Dev, ", total=", Total, 
         "(KB), avail=", Free, "(KB), used=", Used, 
         "(KB), usage=", Usage, "%"]),
-    DiskDn = lists:concat(["disk=", Dev, ",", Dn]),
+    DiskDn = lists:concat([Dn, ",disk=", Dev]),
 	DiskData = [{diskTotal, Total},
 				{diskUsed, Used},
 			    {diskFree, Free},
