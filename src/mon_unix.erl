@@ -27,18 +27,18 @@ cpu_metric(Dn, Ts) ->
 	CpuData = [{cpu1min, cpu_sup:avg1() / 256}, 
 			   {cpu5min, cpu_sup:avg5() / 256}, 
 			   {cpu15min, cpu_sup:avg15() / 256}],
-	#metric{name='opengoss.localcpu', 
+	#metric{name='host.load', 
 			from="agent",
 			dn=Dn, 
 			timestamp=Ts, 
 			data=CpuData}. 
 
 task_metric(Dn, Ts) ->
-	#metric{name='opengoss.localtask', 
+	#metric{name='host.task', 
 			from="agent",
 			dn=Dn,
 			timestamp=Ts, 
-			data=[{taskTotal, cpu_sup:nprocs()}]}.
+			data=[{total, cpu_sup:nprocs()}]}.
 
 mem_metric(Dn, Ts) ->
     Dataset = memsup:get_system_memory_data(),
@@ -54,7 +54,7 @@ mem_metric(Dn, Ts) ->
 			{swapTotal, SwapTotal}, 
 			{swapUsed, SwapUsed}, 
 			{swapFree, SwapFree}],
-    #metric{name='opengoss.localmem', 
+    #metric{name='host.mem', 
 			from="agent",
 			dn=Dn, 
 			timestamp=Ts, 
@@ -67,7 +67,7 @@ disk_metrics(Dn, Ts) ->
         DiskDn = list_to_binary(["disk=", Dev, ",", Dn]),
         DiskUsed = (DiskTotal * Usage) div 100,
         DiskAvail = DiskTotal - DiskUsed,
-        #metric{name='opengoss.localdisk',
+        #metric{name='host.disk',
 				from="agent",
 				dn=DiskDn,
 				timestamp=Ts, 

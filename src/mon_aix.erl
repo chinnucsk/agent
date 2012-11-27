@@ -18,7 +18,7 @@ run(Args) ->
     {MemInfo, MemData} = memory(MemOutput),
     SwapOutput = os:cmd("swap -l"),
     {SwapInfo, SwapData} = swap(SwapOutput),
-    MemSwapMetric = #metric{name='opengoss.localmem', 
+    MemSwapMetric = #metric{name='host.mem', 
 							 from="agent",
 							 dn=Dn,
 							 timestamp=Ts, 
@@ -49,7 +49,7 @@ load(Dn, Ts, Output) ->
 	Data = [{cpu1min, list_to_float(Load1)}, 
 			{cpu5min, list_to_float(Load5)}, 
 			{cpu15min, list_to_float(Load15)}],
-    CpuMetric = #metric{name='opengoss.localcpu',
+    CpuMetric = #metric{name='host.load',
 						from="agent",
 						dn=Dn,
 						timestamp=Ts, 
@@ -58,7 +58,7 @@ load(Dn, Ts, Output) ->
 
 task(Dn, Ts, Output) ->
     TaskTotal = list_to_integer(string:strip(Output, both, $\n)),
-	#metric{name='opengoss.localtask', 
+	#metric{name='host.task', 
 			from="agent",
 			dn=Dn,
 			timestamp=Ts,
@@ -130,7 +130,7 @@ parse(Dn, Ts, [Line|Lines], InfoAcc) ->
         "(KB), avail=", Free, "(KB), used=", Used, 
         "(KB), usage=", Usage, "%"]),
     %DiskDn = lists:concat(["disk=", Dev, ",", Dn]),
-    %Datalog = {metric, <<"opengoss.localdisk">>, DiskDn, Ts, [
+    %Datalog = {metric, <<"host.disk">>, DiskDn, Ts, [
     %        {diskTotal, Total}, {diskUsed, Used}, 
     %        {diskFree, Free}, {diskUsage, Usage}]},
     parse(Dn, Ts, Lines, [Info|InfoAcc]).
